@@ -386,12 +386,13 @@ def run_daily_report() -> None:
 # ── Scheduler ────────────────────────────────────────────────────────────────
 
 def clear_webhook() -> None:
-    """Delete any registered webhook so getUpdates polling works cleanly."""
+    """Delete any registered webhook and drop pending updates so polling works cleanly."""
     try:
         url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/deleteWebhook"
-        r = requests.post(url, timeout=10)
+        r = requests.post(url, json={"drop_pending_updates": True}, timeout=10)
         r.raise_for_status()
         log.info("Webhook cleared — polling mode active.")
+        time.sleep(5)  # Give Telegram time to close any existing getUpdates connections
     except Exception as e:
         log.warning(f"Could not clear webhook: {e}")
 
@@ -438,6 +439,14 @@ def poll_commands() -> None:
                         "• /journalists — top posts from notable AI journalists + podcast episodes\n\n"
                         f"📅 Daily digests arrive at <b>{SEND_TIME} {TIMEZONE}</b> every morning."
                     ])
+        except requests.exceptions.HTTPError as e:
+            if e.response is not None and e.response.status_code == 409:
+                log.warning("409 Conflict — another instance is polling. Waiting 60s for it to release...")
+                clear_webhook()
+                time.sleep(60)
+            else:
+                log.warning(f"Polling HTTP error: {e}")
+                time.sleep(5)
         except Exception as e:
             log.warning(f"Polling error: {e}")
             time.sleep(5)
