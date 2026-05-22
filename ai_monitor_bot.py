@@ -37,10 +37,81 @@ log = logging.getLogger(__name__)
 AI_KEYWORDS = [
     "artificial intelligence", " AI ", "machine learning", "deep learning",
     "large language model", "LLM", "GPT", "Claude", "Gemini", "generative AI",
-    "agentic", "AI agent", "OpenAI", "Anthropic", "Google DeepMind", "NVIDIA",
+    "agentic", "AI agent", "agentic AI", "multi-agent", "autonomous agent",
+    "OpenAI", "Anthropic", "Google DeepMind", "NVIDIA", "Mistral",
     "fintech", "AI regulation", "AI safety", "sovereign AI", "AI model",
     "chatbot", "AI startup", "AI investment", "AI funding", "AI chip",
     "semiconductor", "AI governance", "AI policy", "AI deployment",
+    # Middle East / regional pass-through
+    "UAE", "Dubai", "Abu Dhabi", "Saudi", "Riyadh", "MENA", "Gulf", "GITEX",
+    "Saudi Vision 2030", "NEOM", "G42", "MGX",
+    # Finance / BFSI / Agents specific
+    "AI in banking", "AI in finance", "AI in insurance", "AI in payments",
+    "BFSI", "banking AI", "financial AI", "AI wealth management",
+    "AI risk", "AI compliance", "RegTech", "AI underwriting",
+    "AI trading", "algorithmic trading", "AI fraud detection",
+    "AI lending", "AI credit", "digital banking", "neobank",
+    "AI agent", "agent framework", "LangChain", "AutoGen", "CrewAI",
+    "agentic workflow", "AI automation", "AI orchestration",
+    "AI copilot", "AI assistant", "AI platform",
+]
+
+# ── Journalist & Podcast Feed Registry ──────────────────────────────────────
+# Notable AI/tech/fintech journalists (newsletters, blogs, byline feeds)
+JOURNALIST_FEEDS = [
+    # ── Global / US Journalists ──
+    ("✍️ Global", "https://www.platformer.news/feed", "Casey Newton (Platformer)"),
+    ("✍️ Global", "https://www.exponentialview.co/feed", "Azeem Azhar (Exponential View)"),
+    ("✍️ Global", "https://www.oneusefulthing.org/feed", "Ethan Mollick (One Useful Thing)"),
+    ("✍️ Global", "https://garymarcus.substack.com/feed", "Gary Marcus"),
+    ("✍️ Global", "https://mattturck.com/feed/", "Matt Turck (AI Landscape)"),
+    ("✍️ Global", "https://www.notboring.co/feed", "Packy McCormick (Not Boring)"),
+    ("✍️ Global", "https://karaswisher.substack.com/feed", "Kara Swisher"),
+    ("✍️ Global", "https://simonwillison.net/atom/everything/", "Simon Willison"),
+    ("✍️ Global", "https://www.ben-evans.com/benedictevans/rss.xml", "Benedict Evans"),
+    ("✍️ Global", "https://aisnakeoil.substack.com/feed", "Arvind Narayanan (AI Snake Oil)"),
+    ("✍️ Global", "https://www.deeplearning.ai/the-batch/feed/", "Andrew Ng (The Batch)"),
+    ("✍️ Global", "https://www.interconnects.ai/feed", "Nathan Lambert (Interconnects)"),
+    ("✍️ Global", "https://www.sequoiacap.com/feed/", "Sequoia Capital (AI Essays)"),
+    ("✍️ Global", "https://www.nytimes.com/svc/collections/v1/publish/https://www.nytimes.com/column/hard-fork/rss.xml", "Hard Fork (NYT — Kevin Roose & Casey Newton)"),
+    ("✍️ Global", "https://techcrunch.com/author/kyle-wiggers/feed/", "Kyle Wiggers (TechCrunch AI)"),
+    ("✍️ Global", "https://techcrunch.com/author/devin-coldewey/feed/", "Devin Coldewey (TechCrunch)"),
+    # ── Asia / SG / HK Journalists ──
+    ("✍️ Asia", "https://www.scmp.com/rss/5/feed", "SCMP Tech Desk"),
+    ("✍️ Asia", "https://technode.global/feed/", "TechNode Global Desk"),
+    ("✍️ Asia", "https://www.techinasia.com/feed", "Tech in Asia"),
+    ("✍️ Asia", "https://kr-asia.com/feed", "KrASIA (Alibaba-backed pan-Asia tech)"),
+    ("✍️ Asia", "https://www.dealstreetasia.com/feed/", "DealStreetAsia"),
+    ("✍️ Asia", "https://www.fintechnews.sg/feed/", "Fintech News SG"),
+    ("✍️ Asia", "https://aiinasia.com/feed/", "AI in Asia"),
+    # ── Middle East ──
+    ("✍️ Middle East", "https://www.wamda.com/feed", "Wamda (MENA Tech)"),
+    ("✍️ Middle East", "https://www.magnitt.com/news/rss", "MAGNiTT (MENA Startups)"),
+    ("✍️ Middle East", "https://www.tahawultech.com/feed/", "Tahawul Tech"),
+    ("✍️ Middle East", "https://www.intelligentcio.com/me/feed/", "Intelligent CIO ME"),
+    ("✍️ Middle East", "https://www.zawya.com/rss/technology", "Zawya Tech"),
+    ("✍️ Middle East", "https://gulfnews.com/rss/technology", "Gulf News Tech"),
+    # ── LatAm ──
+    ("✍️ LatAm", "https://contxto.com/en/feed/", "Contxto (LatAm Tech)"),
+    ("✍️ LatAm", "https://latamlist.com/feed/", "LatAm List"),
+    # ── Japan ──
+    ("✍️ Japan", "https://asia.nikkei.com/rss/feed/nar", "Nikkei Asia Tech Desk"),
+]
+
+# Top AI/tech/fintech podcasts (RSS for episode titles + show notes)
+PODCAST_FEEDS = [
+    ("🎙️ Podcast", "https://lexfridman.com/feed/podcast/", "Lex Fridman Podcast"),
+    ("🎙️ Podcast", "https://feeds.simplecast.com/6WB3Xmf5", "Hard Fork (NYT)"),
+    ("🎙️ Podcast", "https://twimlai.com/feed/", "TWIML AI Podcast"),
+    ("🎙️ Podcast", "https://feeds.transistor.fm/practical-ai", "Practical AI"),
+    ("🎙️ Podcast", "https://feeds.megaphone.fm/nopriors", "No Priors (AI)"),
+    ("🎙️ Podcast", "https://www.latent.space/feed", "Latent Space"),
+    ("🎙️ Podcast", "https://api.substack.com/feed/podcast/1133085.rss", "Eye on AI"),
+    ("🎙️ Podcast", "https://lastweek.in/ai/rss/", "Last Week in AI"),
+    ("🎙️ Podcast", "https://feed.podbean.com/aibusinesspodcast/feed.xml", "AI in Business"),
+    ("🎙️ Podcast", "https://feeds.megaphone.fm/acquired", "Acquired (Tech/AI episodes)"),
+    ("🎙️ Podcast", "https://www.bankless.com/feed", "Bankless (DeFi/AI Finance)"),
+    ("🎙️ Podcast", "https://feeds.simplecast.com/4T39_jAj", "The AI Breakdown"),
 ]
 
 # ── RSS Feed Registry ────────────────────────────────────────────────────────
@@ -71,15 +142,44 @@ FEEDS = [
     ("🇯🇵 Japan", "https://www.nippon.com/en/feed/", "Nippon.com"),
     # ── Middle East ──
     ("🇦🇪 Middle East", "https://www.arabianbusiness.com/rss", "Arabian Business"),
-    ("🇦🇪 Middle East", "https://www.thenationalnews.com/rss", "The National"),
+    ("🇦🇪 Middle East", "https://www.thenationalnews.com/rss/technology", "The National (Tech)"),
     ("🇦🇪 Middle East", "https://www.khaleejtimes.com/feed", "Khaleej Times"),
+    ("🇦🇪 Middle East", "https://gulfnews.com/rss/technology", "Gulf News Tech"),
+    ("🇦🇪 Middle East", "https://www.zawya.com/rss/technology", "Zawya Tech"),
+    ("🇦🇪 Middle East", "https://www.saudigazette.com.sa/rss", "Saudi Gazette"),
+    ("🇦🇪 Middle East", "https://www.wamda.com/feed", "Wamda (MENA Tech)"),
+    ("🇦🇪 Middle East", "https://www.magnitt.com/news/rss", "MAGNiTT"),
+    ("🇦🇪 Middle East", "https://www.tahawultech.com/feed/", "Tahawul Tech"),
+    ("🇦🇪 Middle East", "https://www.intelligentcio.com/me/feed/", "Intelligent CIO ME"),
     # ── Latin America ──
     ("🌎 LatAm", "https://mexicobusiness.news/rss.xml", "Mexico Business News"),
     ("🌎 LatAm", "https://www.bnamericas.com/en/rss/all", "BNamericas"),
-    # ── Fintech / Regulation ──
-    ("💳 Fintech", "https://fintech.global/feed/", "Fintech Global"),
-    ("💳 Fintech", "https://www.thebanker.com/rss", "The Banker"),
-    ("💳 Fintech", "https://www.financialregnews.com/feed/", "Financial Reg News"),
+    # ── Fintech / BFSI ──
+    ("💳 Fintech & BFSI", "https://fintech.global/feed/", "Fintech Global"),
+    ("💳 Fintech & BFSI", "https://www.thebanker.com/rss", "The Banker"),
+    ("💳 Fintech & BFSI", "https://www.financialregnews.com/feed/", "Financial Reg News"),
+    ("💳 Fintech & BFSI", "https://www.fintechnews.sg/feed/", "Fintech News SG"),
+    ("💳 Fintech & BFSI", "https://fintechmagazine.com/rss", "Fintech Magazine"),
+    ("💳 Fintech & BFSI", "https://www.bankingtech.com/feed/", "Banking Tech"),
+    ("💳 Fintech & BFSI", "https://www.paymentsdive.com/feeds/news/", "Payments Dive"),
+    ("💳 Fintech & BFSI", "https://www.insurancebusinessmag.com/rss/news", "Insurance Business"),
+    ("💳 Fintech & BFSI", "https://www.risk.net/rss", "Risk.net"),
+    ("💳 Fintech & BFSI", "https://www.celent.com/rss", "Celent"),
+    ("💳 Fintech & BFSI", "https://www.fintechfutures.com/feed/", "Fintech Futures"),
+    ("💳 Fintech & BFSI", "https://www.pymnts.com/artificial-intelligence-2/feed/", "PYMNTS AI"),
+    ("💳 Fintech & BFSI", "https://www.americanbanker.com/feed", "American Banker"),
+    ("💳 Fintech & BFSI", "https://www.crowdfundinsider.com/feed/", "Crowdfund Insider"),
+    # ── AI Agents ──
+    ("🤖 AI Agents", "https://www.ben-evans.com/benedictevans/rss.xml", "Benedict Evans"),
+    ("🤖 AI Agents", "https://simonwillison.net/atom/everything/", "Simon Willison"),
+    ("🤖 AI Agents", "https://www.deeplearning.ai/the-batch/feed/", "The Batch (DeepLearning.AI)"),
+    ("🤖 AI Agents", "https://aisnakeoil.substack.com/feed", "AI Snake Oil"),
+    ("🤖 AI Agents", "https://www.interconnects.ai/feed", "Interconnects"),
+    ("🤖 AI Agents", "https://venturebeat.com/category/ai/feed/", "VentureBeat AI"),
+    ("🤖 AI Agents", "https://www.infoq.com/ai-ml-data-eng/rss/", "InfoQ AI"),
+    ("🤖 AI Agents", "https://huggingface.co/blog/feed.xml", "Hugging Face Blog"),
+    ("🤖 AI Agents", "https://openai.com/news/rss/", "OpenAI News"),
+    ("🤖 AI Agents", "https://www.anthropic.com/rss.xml", "Anthropic News"),
 ]
 
 
@@ -154,8 +254,8 @@ def build_messages(stories: dict) -> list[str]:
 
     # ── One message per region ──
     region_order = [
-        "🌐 Global", "🇺🇸 US", "🇸🇬 Singapore", "🇭🇰 Hong Kong",
-        "🇯🇵 Japan", "🇦🇪 Middle East", "🌎 LatAm", "💳 Fintech"
+        "🤖 AI Agents", "🌐 Global", "🇺🇸 US", "🇸🇬 Singapore", "🇭🇰 Hong Kong",
+        "🇯🇵 Japan", "🇦🇪 Middle East", "🌎 LatAm", "💳 Fintech & BFSI"
     ]
     for region in region_order:
         items = stories.get(region, [])
@@ -204,6 +304,66 @@ def send_telegram(messages: list[str]) -> None:
         time.sleep(0.5)  # avoid Telegram flood limits
 
 
+def build_journalist_messages(j_stories: dict, p_stories: dict) -> list[str]:
+    """Build Telegram messages for the journalist + podcast digest."""
+    today = datetime.datetime.now(tz=ZoneInfo(TIMEZONE)).strftime("%A, %-d %B %Y")
+    messages = []
+
+    total = sum(len(v) for v in j_stories.values()) + sum(len(v) for v in p_stories.values())
+    header = (
+        f"✍️ <b>AI Journalists & Podcasts Monitor</b>\n"
+        f"<i>{today}</i>\n"
+        f"{'─' * 30}\n"
+        f"<b>{total} new posts</b> from notable AI journalists and podcasts in the last 24h."
+    )
+    messages.append(header)
+
+    # Journalist section — grouped by region
+    region_order = ["✍️ Global", "✍️ Asia", "✍️ Middle East", "✍️ LatAm", "✍️ Japan"]
+    for region in region_order:
+        items = j_stories.get(region, [])
+        if not items:
+            continue
+        lines = [f"<b>{region}</b>\n"]
+        for title, link, source in items[:5]:
+            short_title = truncate(title, 100)
+            lines.append(f'• <a href="{link}">{short_title}</a>')
+            lines.append(f'  <i>— {source}</i>')
+        messages.append("\n".join(lines))
+
+    # Podcast section
+    pod_items = p_stories.get("🎙️ Podcast", [])
+    if pod_items:
+        lines = ["<b>🎙️ Podcasts — Latest Episodes</b>\n"]
+        for title, link, source in pod_items[:8]:
+            short_title = truncate(title, 100)
+            lines.append(f'• <a href="{link}">{short_title}</a>')
+            lines.append(f'  <i>— {source}</i>')
+        messages.append("\n".join(lines))
+
+    messages.append(
+        "─" * 30 + "\n"
+        "💡 <i>Run the full Writer Agent report for sentiment analysis, KOL tracker, and deep regional coverage.</i>"
+    )
+    return messages
+
+
+def run_journalist_report() -> None:
+    """Fetch journalist newsletters + podcast episodes and send digest."""
+    log.info("=== Starting journalist & podcast monitor run ===")
+
+    j_stories = fetch_region_stories(JOURNALIST_FEEDS, max_per_feed=3)
+    p_stories = fetch_region_stories(PODCAST_FEEDS, max_per_feed=3)
+
+    if not j_stories and not p_stories:
+        send_telegram(["⚠️ <b>Journalists Monitor:</b> No new posts found in the last 24h."])
+        return
+
+    messages = build_journalist_messages(j_stories, p_stories)
+    send_telegram(messages)
+    log.info(f"=== Journalist digest done. Sent {len(messages)} messages. ===")
+
+
 def run_daily_report() -> None:
     """Main function: fetch, filter, format, and send the daily report."""
     log.info("=== Starting daily AI media monitor run ===")
@@ -249,11 +409,17 @@ def poll_commands() -> None:
                     log.info(f"Received /report from chat {chat_id} — sending digest now.")
                     send_telegram(["⏳ <b>Fetching your AI digest now...</b> Give me ~30 seconds."])
                     run_daily_report()
-                elif text.startswith("/start"):
+                elif text.startswith("/journalists"):
+                    log.info(f"Received /journalists from chat {chat_id} — sending journalist digest now.")
+                    send_telegram(["⏳ <b>Fetching journalist & podcast updates...</b> Give me ~30 seconds."])
+                    run_journalist_report()
+                elif text.startswith("/start") or text.startswith("/help"):
                     send_telegram([
-                        "✅ <b>AI Monitor Bot is live!</b>\n"
-                        f"Daily digest arrives at <b>{SEND_TIME} {TIMEZONE}</b> every morning.\n"
-                        "Type /report anytime for an instant digest."
+                        "✅ <b>AI Monitor Bot</b>\n\n"
+                        "<b>Commands:</b>\n"
+                        "• /report — instant AI headlines digest (all regions + fintech + agents)\n"
+                        "• /journalists — top posts from notable AI journalists + podcast episodes\n\n"
+                        f"📅 Daily digests arrive at <b>{SEND_TIME} {TIMEZONE}</b> every morning."
                     ])
         except Exception as e:
             log.warning(f"Polling error: {e}")
@@ -282,6 +448,14 @@ def main():
     log.info(f"Scheduling at {SEND_TIME} {TIMEZONE} = {utc_time} UTC")
 
     schedule.every().day.at(utc_time).do(run_daily_report)
+
+    # Schedule journalist + podcast digest 5 minutes after main digest
+    h2, m2    = divmod(h * 60 + m + 5, 60)
+    local_dt2 = datetime.datetime.now(local_tz).replace(hour=h2, minute=m2, second=0, microsecond=0)
+    utc_dt2   = local_dt2.astimezone(utc_tz)
+    utc_time2 = utc_dt2.strftime("%H:%M")
+    log.info(f"Journalist digest scheduled at {h2:02d}:{m2:02d} {TIMEZONE} = {utc_time2} UTC")
+    schedule.every().day.at(utc_time2).do(run_journalist_report)
 
     # Start command polling in a background thread
     t = threading.Thread(target=poll_commands, daemon=True)
