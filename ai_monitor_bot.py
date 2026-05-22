@@ -220,14 +220,56 @@ def run_daily_report() -> None:
 
 # ── Scheduler ────────────────────────────────────────────────────────────────
 
+def poll_commands() -> None:
+    """
+    Long-poll Telegram for incoming messages.
+    Responds to /report by sending an immediate digest.
+    Runs in a background thread alongside the scheduler.
+    """
+    base_url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}"
+    offset = 0
+    log.info("Command polling started — send /report in Telegram for an instant digest.")
+
+    while True:
+        try:
+            r = requests.get(
+                f"{base_url}/getUpdates",
+                params={"timeout": 30, "offset": offset},
+                timeout=40
+            )
+            r.raise_for_status()
+            updates = r.json().get("result", [])
+            for update in updates:
+                offset = update["update_id"] + 1
+                message = update.get("message", {})
+                text = message.get("text", "").strip().lower()
+                chat_id = str(message.get("chat", {}).get("id", ""))
+
+                if text.startswith("/report"):
+                    log.info(f"Received /report from chat {chat_id} — sending digest now.")
+                    send_telegram(["⏳ <b>Fetching your AI digest now...</b> Give me ~30 seconds."])
+                    run_daily_report()
+                elif text.startswith("/start"):
+                    send_telegram([
+                        "✅ <b>AI Monitor Bot is live!</b>\n"
+                        f"Daily digest arrives at <b>{SEND_TIME} {TIMEZONE}</b> every morning.\n"
+                        "Type /report anytime for an instant digest."
+                    ])
+        except Exception as e:
+            log.warning(f"Polling error: {e}")
+            time.sleep(5)
+
+
 def main():
+    import threading
+
     log.info(f"Bot started. Daily report scheduled at {SEND_TIME} ({TIMEZONE}).")
 
-    # Send test message on startup so you know it's working
+    # Send startup confirmation
     send_telegram([
         "✅ <b>AI Monitor Bot is live!</b>\n"
         f"Daily digest will arrive at <b>{SEND_TIME} {TIMEZONE}</b> every morning.\n"
-        "Use /report in your bot chat to get an immediate report anytime."
+        "Type /report anytime for an instant digest."
     ])
 
     # Convert SEND_TIME to UTC for the scheduler
@@ -241,6 +283,11 @@ def main():
 
     schedule.every().day.at(utc_time).do(run_daily_report)
 
+    # Start command polling in a background thread
+    t = threading.Thread(target=poll_commands, daemon=True)
+    t.start()
+
+    # Run the scheduler in the main thread
     while True:
         schedule.run_pending()
         time.sleep(30)
