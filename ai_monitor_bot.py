@@ -239,7 +239,7 @@ def main():
     utc_time  = utc_dt.strftime("%H:%M")
     log.info(f"Scheduling at {SEND_TIME} {TIMEZONE} = {utc_time} UTC")
 
-    schedule.every().day.at(utc_time, "UTC").do(run_daily_report)
+    schedule.every().day.at(utc_time).do(run_daily_report)
 
     while True:
         schedule.run_pending()
