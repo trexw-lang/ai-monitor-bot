@@ -385,6 +385,17 @@ def run_daily_report() -> None:
 
 # ── Scheduler ────────────────────────────────────────────────────────────────
 
+def clear_webhook() -> None:
+    """Delete any registered webhook so getUpdates polling works cleanly."""
+    try:
+        url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/deleteWebhook"
+        r = requests.post(url, timeout=10)
+        r.raise_for_status()
+        log.info("Webhook cleared — polling mode active.")
+    except Exception as e:
+        log.warning(f"Could not clear webhook: {e}")
+
+
 def poll_commands() -> None:
     """
     Long-poll Telegram for incoming messages.
@@ -393,6 +404,7 @@ def poll_commands() -> None:
     """
     base_url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}"
     offset = 0
+    clear_webhook()  # Always clear webhook on startup before polling
     log.info("Command polling started — send /report in Telegram for an instant digest.")
 
     while True:
