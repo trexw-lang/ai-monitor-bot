@@ -67,7 +67,8 @@ JOURNALIST_FEEDS = [
     ("✍️ Global", "https://mattturck.com/feed/", "Matt Turck (AI Landscape)"),
     ("✍️ Global", "https://www.notboring.co/feed", "Packy McCormick (Not Boring)"),
     ("✍️ Global", "https://karaswisher.substack.com/feed", "Kara Swisher"),
-    ("✍️ Global", "https://simonwillison.net/atom/everything/", "Simon Willison"),
+    ("✍️ Global", "https://a16z.com/feed/", "a16z (AI Essays)"),
+    ("✍️ Global", "https://www.mckinsey.com/capabilities/quantumblack/rss", "McKinsey QuantumBlack AI"),
     ("✍️ Global", "https://www.ben-evans.com/benedictevans/rss.xml", "Benedict Evans"),
     ("✍️ Global", "https://aisnakeoil.substack.com/feed", "Arvind Narayanan (AI Snake Oil)"),
     ("✍️ Global", "https://www.deeplearning.ai/the-batch/feed/", "Andrew Ng (The Batch)"),
@@ -171,7 +172,11 @@ FEEDS = [
     ("💳 Fintech & BFSI", "https://www.crowdfundinsider.com/feed/", "Crowdfund Insider"),
     # ── AI Agents ──
     ("🤖 AI Agents", "https://www.ben-evans.com/benedictevans/rss.xml", "Benedict Evans"),
-    ("🤖 AI Agents", "https://simonwillison.net/atom/everything/", "Simon Willison"),
+    ("🤖 AI Agents", "https://a16z.com/feed/", "a16z (AI Essays)"),
+    ("🤖 AI Agents", "https://blogs.microsoft.com/ai/feed/", "Microsoft AI Blog"),
+    ("🤖 AI Agents", "https://blog.google/technology/ai/rss/", "Google AI Blog"),
+    ("🤖 AI Agents", "https://aws.amazon.com/blogs/machine-learning/feed/", "AWS Machine Learning Blog"),
+    ("🤖 AI Agents", "https://www.mckinsey.com/capabilities/quantumblack/rss", "McKinsey QuantumBlack AI"),
     ("🤖 AI Agents", "https://www.deeplearning.ai/the-batch/feed/", "The Batch (DeepLearning.AI)"),
     ("🤖 AI Agents", "https://aisnakeoil.substack.com/feed", "AI Snake Oil"),
     ("🤖 AI Agents", "https://www.interconnects.ai/feed", "Interconnects"),
@@ -191,13 +196,13 @@ def is_ai_relevant(title: str, summary: str) -> bool:
     return any(kw.lower() in text for kw in AI_KEYWORDS)
 
 
-def fetch_region_stories(feeds: list, max_per_feed: int = 3) -> dict:
+def fetch_region_stories(feeds: list, max_per_feed: int = 3, cutoff_hours: int = 26) -> dict:
     """
     Fetch RSS feeds, filter for AI relevance, and group by region.
     Returns: {region: [(title, link, source, published), ...]}
     """
     results: dict = {}
-    cutoff = datetime.datetime.now(tz=datetime.timezone.utc) - datetime.timedelta(hours=26)
+    cutoff = datetime.datetime.now(tz=datetime.timezone.utc) - datetime.timedelta(hours=cutoff_hours)
 
     for region, url, source in feeds:
         try:
@@ -352,8 +357,8 @@ def run_journalist_report() -> None:
     """Fetch journalist newsletters + podcast episodes and send digest."""
     log.info("=== Starting journalist & podcast monitor run ===")
 
-    j_stories = fetch_region_stories(JOURNALIST_FEEDS, max_per_feed=3)
-    p_stories = fetch_region_stories(PODCAST_FEEDS, max_per_feed=3)
+    j_stories = fetch_region_stories(JOURNALIST_FEEDS, max_per_feed=3, cutoff_hours=48)
+    p_stories = fetch_region_stories(PODCAST_FEEDS, max_per_feed=3, cutoff_hours=168)  # 7 days for weekly podcasts
 
     if not j_stories and not p_stories:
         send_telegram(["⚠️ <b>Journalists Monitor:</b> No new posts found in the last 24h."])
