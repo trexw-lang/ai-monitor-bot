@@ -1,0 +1,1 @@
+worker: python ai_monitor_bot.py
